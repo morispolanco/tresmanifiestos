@@ -1,0 +1,27 @@
+# Dependencias y builds
+node_modules/
+dist/
+pruebas/navegador/node_modules/
+
+# Andamiaje de despliegue (se regenera con desplegar.py / desempacar.py)
+.template/
+manifiesto.json
+plantilla-raw.json
+sdk-ai.md
+sdk-ai-generate.json
+desempacar-out.txt
+local/backend.bundle.mjs
+
+# Metadatos del despliegue (viven fuera del árbol de la app)
+app_id.txt
+estado-final.json
+deploy-log.txt
+salida-*.json
+
+# Python y temporales
+__pycache__/
+*.pyc
+*.png
+
+# Andamiaje de una sola vez
+desempacar.py

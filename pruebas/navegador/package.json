@@ -1,0 +1,12 @@
+{
+    "name": "tres-manifiestos-e2e",
+    "private": true,
+    "type": "module",
+    "description": "Prueba de extremo a extremo contra la app publicada: escribe los tres cuentos de verdad y comprueba el resultado en el navegador.",
+    "scripts": {
+        "e2e": "node e2e.mjs"
+    },
+    "dependencies": {
+        "puppeteer-core": "^25.12.0"
+    }
+}

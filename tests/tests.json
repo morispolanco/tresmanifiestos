@@ -1,0 +1,84 @@
+[
+  {
+    "name": "Un título entra y salen los tres cuentos",
+    "sanity": true,
+    "viewport": "desktop",
+    "covers": [
+      "generación de los tres cuentos",
+      "catálogo de los tres manifiestos",
+      "colofón de cada poética",
+      "contador de palabras y estado de cada tarjeta"
+    ],
+    "description": "Verifica el flujo central: un solo título produce tres cuentos, uno por manifiesto, cada uno con su texto, su colofón y sus acciones disponibles.",
+    "steps": [
+      "Abre la aplicación en la dirección raíz. El tablero muestra tres tarjetas, una por manifiesto: I «La concordancia de las manos», II «El realismo a plazos» y III «El realismo polifrecuencial», las tres en estado «en espera».",
+      "Escribe en el campo «El título del cuento» el texto: La última cuota del puente",
+      "Pulsa el botón «Escribir los tres».",
+      "Espera sin recargar: cada tarjeta pasa por «escribiendo» y termina en un estado con su número de palabras. La escritura de las tres tarda entre medio minuto y dos minutos."
+    ],
+    "expected": "Las tres tarjetas terminan en estado listo, cada una con un cuento distinto de varios párrafos y con su propio colofón («Discordancias», «Plazos en funcionamiento» y «Estratos»). Los botones «Copiar» y «Descargar .md» de cada tarjeta quedan habilitados y la nota bajo el formulario indica el total de palabras repartidas en tres poéticas."
+  },
+  {
+    "name": "Sin título no se escribe nada, y el título puede venir en la dirección",
+    "viewport": "mobile",
+    "covers": [
+      "precarga del título desde la dirección",
+      "validación del título vacío",
+      "guardarraíl de escritura inválida en móvil"
+    ],
+    "description": "Verifica que el campo precarga un título pasado en la dirección y que un título vacío se rechaza con un aviso visible, sin que ninguna tarjeta empiece a escribir.",
+    "steps": [
+      "Abre la dirección raíz añadiendo ?titulo=El puente de los cobradores y comprueba que el campo «El título del cuento» ya trae ese texto.",
+      "Borra el contenido del campo y déjalo vacío.",
+      "Pulsa «Escribir los tres»."
+    ],
+    "expected": "Con el campo vacío las tres tarjetas siguen en estado «en espera» (ninguna pasa a escribir) y bajo el formulario aparece en rojo el aviso «Escribe un título para que los manifiestos tengan de qué escribir.»"
+  },
+  {
+    "name": "Volver a escribir rehace un solo manifiesto y la trilogía se recupera tras recargar",
+    "viewport": "desktop",
+    "covers": [
+      "reescritura de un solo cuento",
+      "las otras dos tarjetas quedan intactas",
+      "historial de títulos recientes",
+      "persistencia en el navegador tras recargar"
+    ],
+    "description": "Verifica que «Volver a escribir» afecta solo a su tarjeta y que la trilogía guardada se puede volver a leer desde los títulos recientes después de recargar.",
+    "setup": [
+      "Escribe el título «Trilogía del fiado» y pulsa «Escribir los tres»; espera a que las tres tarjetas queden listas."
+    ],
+    "steps": [
+      "Anota la primera frase del cuento de las tarjetas I y III.",
+      "En la tarjeta II «El realismo a plazos» pulsa «Volver a escribir» y espera a que esa tarjeta vuelva a quedar lista.",
+      "Comprueba que el texto de la tarjeta II cambió y que las tarjetas I y III conservan la misma primera frase que anotaste.",
+      "Recarga la página y mira la sección «Títulos recientes».",
+      "Pulsa el botón «Trilogía del fiado»."
+    ],
+    "expected": "Solo la tarjeta II muestra un texto nuevo. Después de recargar, la sección «Títulos recientes» ofrece el botón «Trilogía del fiado» y, al pulsarlo, las tres tarjetas vuelven a mostrar los cuentos guardados (sin pasar por «escribiendo») y el campo del título muestra «Trilogía del fiado»."
+  },
+  {
+    "name": "Si el motor falla, cada tarjeta lo dice y deja reintentar",
+    "viewport": "desktop",
+    "covers": [
+      "error del motor visible",
+      "reintento por tarjeta",
+      "manejo del error del backend en /api/cuento"
+    ],
+    "description": "Verifica que un fallo del motor se muestra en cada tarjeta con el mensaje que devolvió el servidor, en vez de dejar la pantalla muda.",
+    "qa_faults": [
+      {
+        "method": "POST",
+        "path": "/api/cuento",
+        "status": 500,
+        "body_json": {
+          "error": "El motor no está disponible ahora mismo."
+        }
+      }
+    ],
+    "steps": [
+      "Escribe el título «Cuentos que no llegan» y pulsa «Escribir los tres».",
+      "Espera a que las tres tarjetas dejen de escribir."
+    ],
+    "expected": "Las tres tarjetas muestran el aviso rojo «El motor no está disponible ahora mismo.», su estado dice «interrumpido» y los botones «Copiar» y «Descargar .md» siguen deshabilitados. El botón «Volver a escribir» queda disponible en cada tarjeta."
+  }
+]
